@@ -83,10 +83,10 @@
     			<includes>
     				<include>ModalPageTest.java</include>
     			</includes>
-    			<!--<suiteXmlFiles>
-    				<suiteXmlFile>src\test\java\suites\${xmlFiles}</suiteXmlFile>
+    			<suiteXmlFiles>
+    				<suiteXmlFile>${xmlFiles}</suiteXmlFile>
     			</suiteXmlFiles>
-    			<systemPropertyVariables>
+    			<!--<systemPropertyVariables>
     				<executionBrowser>${browser}</executionBrowser>
     				<appURL>${url}</appURL>
     			</systemPropertyVariables>-->
