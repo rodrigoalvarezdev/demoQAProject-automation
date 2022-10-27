@@ -22,21 +22,24 @@ public class IndexPage extends Base {
 	
 	public ElementsPage clickElementsBtn() {
 		Action.explicitWait(elementsBtn);
+		Action.waitClickeable(elementsBtn);
 		Action.scrollByVisibilityOfElement(driver.get(), elementsBtn);
 		Action.click(elementsBtn);
 		return new ElementsPage();
 	}
 	
-	public void clickForms() {
+	public FormsPage clickForms() {
 		Action.explicitWait(formsBtn);
 		Action.scrollByVisibilityOfElement(driver.get(), formsBtn);
 		Action.click(formsBtn);
+		return new FormsPage();
 	}
 	
-	public void clickAlertsFrame() {
+	public AlertsFramePage clickAlertsFrame() {
 		Action.explicitWait(alertsFrameBtn);
 		Action.scrollByVisibilityOfElement(driver.get(), elementsBtn);
 		Action.click(alertsFrameBtn);
+		return new AlertsFramePage();
 	}
 	
 	public void clickWidgets() {

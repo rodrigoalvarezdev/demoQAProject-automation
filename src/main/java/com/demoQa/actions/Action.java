@@ -1,9 +1,12 @@
 package com.demoQa.actions;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -11,11 +14,16 @@ import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
@@ -134,5 +142,54 @@ public class Action extends Base {
 				}
 			}
 		}
+	}
+	
+	public static boolean isFileDownloaded(String downloadPath, String fileName) {
+		boolean flag = false;
+	    File dir = new File(downloadPath);
+	    File[] dir_contents = dir.listFiles();
+	  	    
+	    for (int i = 0; i < dir_contents.length; i++) {
+	        if (dir_contents[i].getName().equals(fileName))
+	            return flag=true;
+	            }
+
+	    return flag;
+	}
+	
+	public static void deleteFile(String path) {
+		File file = new File (path);
+		file.delete();
+	}
+	
+	public static void waitVisibility(WebElement ele) {
+		WebDriverWait wait = new WebDriverWait(driver.get(), Duration.ofSeconds(6));
+		wait.until(ExpectedConditions.visibilityOf(ele));
+	}
+	
+	public static void selectValue(WebElement ele, String value) {
+		Select select = new Select(ele);
+		select.selectByValue(value);
+	}
+	
+	public static void enterBtn(WebElement ele) {
+		ele.sendKeys(Keys.ENTER);
+	}
+	
+	public static String screenShot(WebDriver driver, String filename) {
+		String dateName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
+		TakesScreenshot takesScreenshot = (TakesScreenshot) driver;
+		File source = takesScreenshot.getScreenshotAs(OutputType.FILE);
+		String destination = System.getProperty("user.dir") + "\\screenShots\\" + filename + "_" + dateName + ".png";
+
+		try {
+			FileUtils.copyFile(source, new File(destination));
+		} catch (Exception e) {
+			e.getMessage();
+		}
+		// This new path for jenkins
+		String newImageString = "http://localhost:8082/job/MyStoreProject/ws/MyStoreProject/ScreenShots/" + filename + "_"
+				+ dateName + ".png";
+		return newImageString;
 	}
 }

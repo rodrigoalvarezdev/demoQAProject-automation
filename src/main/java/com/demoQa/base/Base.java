@@ -13,20 +13,22 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
 import com.demoQa.actions.Action;
-
+import com.demoQa.utils.ExtentManager;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class Base {
 	public static ThreadLocal<RemoteWebDriver> driver = new ThreadLocal<>();
 	protected static Properties prop;
-	@BeforeSuite(groups = {"sanity", "smoke", "regression"})
+	@BeforeSuite(groups = {"sanity", "smoke", "regression"}, alwaysRun = true)
 	public void loadConfig() {
 		try {
+			ExtentManager.initReport();
 			prop = new Properties();
 			FileInputStream f = new FileInputStream("configuration\\config.properties");
 			prop.load(f);
@@ -66,7 +68,14 @@ public class Base {
 	@AfterMethod(groups = {"sanity", "smoke", "regression"}, alwaysRun = true)
 	public static void tearDown(ITestResult result) {
 		System.out.println(result.getName());
-		System.out.println(result.getThrowable());
+		if(result.getStatus() == ITestResult.FAILURE) {
+			System.out.println(result.getThrowable());
+		}
 		driver.get().quit();
+	}
+	
+	@AfterSuite(groups = {"sanity", "smoke", "regression"}, alwaysRun = true)
+	public void afterSuite() {
+		ExtentManager.closeReport();
 	}
 }

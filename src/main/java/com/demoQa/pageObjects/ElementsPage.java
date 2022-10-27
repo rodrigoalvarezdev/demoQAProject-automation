@@ -24,6 +24,7 @@ public class ElementsPage extends Base {
 	
 	public TextBoxPage clickOnTextBox() {
 		Action.explicitWait(textBoxBtn);
+		Action.waitClickeable(tablesBtn);
 		Action.click(textBoxBtn);
 		return new TextBoxPage();
 	}
@@ -69,15 +70,18 @@ public class ElementsPage extends Base {
 		return new BrokenLinksPage();
 	}
 	
-	public void clickOnUploadDown() {
+	public UploadDownloadPage clickOnUploadDown() {
+		Action.scrollByVisibilityOfElement(driver.get(), uploadDownBtn);
 		Action.explicitWait(uploadDownBtn);
 		Action.click(uploadDownBtn);
+		return new UploadDownloadPage();
 	}
 	
-	public void clickOnDinamicProps() {
-		Action.explicitWait(dinamicPropBtn);
+	public DynamicPropsPage clickOnDinamicProps() {
 		Action.scrollByVisibilityOfElement(driver.get(), tablesBtn);
+		Action.explicitWait(dinamicPropBtn);
 		Action.click(dinamicPropBtn);
+		return new DynamicPropsPage();
 	}
 	
 	

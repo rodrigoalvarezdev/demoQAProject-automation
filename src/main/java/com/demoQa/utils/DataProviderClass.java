@@ -31,4 +31,19 @@ public class DataProviderClass {
 		}
 		return data;
 	}
+	
+	@DataProvider
+	public Object[][] formData(){
+		String sheetName = "form";
+		int row = Excel.rowTotal(sheetName);
+		int cell = Excel.cellTotal(sheetName);
+		Object[][] data = new Object[row-1][cell];
+		
+		for(int i=0; i<row-1;i++) {
+			for(int j=0; j<cell;j++) {
+				data[i][j] = Excel.cellValue(sheetName, i+1, j);
+			}
+		}
+		return data;
+	}
 }
